@@ -1,0 +1,61 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+OPENSHIFT_LOGENTRIES_PIDFILE=${OPENSHIFT_LOGENTRIES_DIR}run/logentries.pid
+OPENSHIFT_LOGENTRIESRC=${OPENSHIFT_DATA_DIR}.logentriesrc
+
+
+
+function start() {
+  if [ -z "${OPENSHIFT_LOGENTRIES_KEY}" ]; then
+    echo "ERROR: You need to set the OPENSHIFT_LOGENTRIES_KEY before starting logentires."
+    echo "       rhc env set OPENSHIFT_LOGENTRIES_KEY=yourKey"
+    echo "       rhc cartridge restart logentries -a ${OPENSHIFT_APP_NAME}"
+    echo
+  else
+    echo "Starting logentries cartridge"
+    if [ ! -f ${OPENSHIFT_LOGENTRIESRC} ]; then
+      echo "ERROR: Unabled to locate ~/.logentriesrc file."
+      exit 1
+    fi
+
+    ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le monitordaemon
+}
+
+function stop() {
+  if [ -f "${OPENSHIFT_LOGENTRIES_PIDFILE}" ]; then
+    echo "Stopping logentries cartridge"
+    kill -15 `cat ${OPENSHIFT_LOGENTRIES_PIDFILE}`
+  fi
+}
+
+function restart() {
+    stop
+    start
+}
+
+function status() {
+  return 0
+}
+
+function reload() {
+    client_result "Reloading logentries cart"
+    kill -1 `cat ${OPENSHIFT_LOGENTRIES_PIDFILE}`
+    ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le monitordaemon
+}
+
+function tidy() {
+  echo "Nothing to clean for logentries."
+}
+
+case "$1" in
+  start) start ;;
+  stop) stop ;;
+  restart) restart ;;
+  status) status ;;
+  reload) reload ;;
+  tidy) tidy ;;
+  *) exit 0
+esac
+

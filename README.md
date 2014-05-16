@@ -1,0 +1,2 @@
+# OpenShift Logentries cartridge
+

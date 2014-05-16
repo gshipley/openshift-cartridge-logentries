@@ -1,0 +1,22 @@
+#!/bin/bash -e
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+LOGENTRIES_DOWNLOAD_URL="https://github.com/gshipley/logentries/raw/master/logentries.tar.gz"
+
+# Download the precompiled logentries binary
+#
+pushd /tmp >/dev/null
+curl -s $LOGENTRIES_DOWNLOAD_URL | tar --strip-components=1 --wildcards -xzf - '*/bin/logentries'
+mv -vf ./bin/logentries ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries
+rm -rf ./bin
+chmod +x ${OPENSHIFT_LOGENTRIES_DIR}bin/le
+popd >/dev/null
+
+mkdir -p ${OPENSHIFT_LOGENTRIES_DIR}/run
+mkdir -p ${OPENSHIFT_LOGENTRIES_DIR}/log
+mkdir -p ${OPENSHIFT_LOGENTRIES_DIR}/var/events
+
+
+client_result "Logentries has been added to your applicaiton."
+client_result ""
