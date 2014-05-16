@@ -15,10 +15,7 @@ function start() {
     echo
   else
     echo "Starting logentries cartridge"
-    if [ ! -f ${OPENSHIFT_LOGENTRIESRC} ]; then
-      echo "ERROR: Unabled to locate ~/.logentriesrc file."
-      exit 1
-    fi
+    
 
     ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le monitordaemon
 }
