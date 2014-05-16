@@ -14,9 +14,6 @@ function start() {
     echo "       rhc cartridge restart logentries -a ${OPENSHIFT_APP_NAME}"
     echo
   else
-    echo "Starting logentries cartridge"
-    
-
     ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le monitordaemon
 }
 
