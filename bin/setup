@@ -3,12 +3,7 @@
 # Make sure the agent is an executable
 chmod +x ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le
 
-# If the config exists, the agent is registered and following files
-
-        # Load the user config with Logentries Account Key
-        source ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le_config.ini
-
-        ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le register --hostname=${OPENSHIFT_APP_NAME} --account-key=${ACCOUNT_KEY}
+${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le register --hostname=${OPENSHIFT_APP_NAME} --account-key=${OPENSHIFT_LOGENTRIES_KEY}
 
 # We don't want just OPENSHIFT_LOG_DIR as it could be a duplicate
 for dir in `env | grep OPENSHIFT_.*_LOG_DIR`
