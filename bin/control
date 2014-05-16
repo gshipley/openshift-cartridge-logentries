@@ -15,6 +15,7 @@ function start() {
     echo
   else
     ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le monitordaemon
+  fi
 }
 
 function stop() {
