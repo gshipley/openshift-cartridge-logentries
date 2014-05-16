@@ -23,16 +23,13 @@ function start() {
             for logf in `ls $logdir`
             do
                     # Check if its access or error log
-                    if [[ $logf == *_log-* ]]
+                    if [[ $logf == *log ]]
                     then
                             # Navigate to the log directory
                             pushd $logdir > /dev/null
 
-                            # Get the full filename without timestamp
-                            filename="$logdir${logf%%-*}-*"
-
                             # Follow any new logs and make sure existing ones are being followed
-                            ${OPENSHIFT_REPO_DIR}logentries/le follow "$filename"
+                            ${OPENSHIFT_LOGENTRIES_DIR}bin/logentries/le follow "$logf"
 
                             popd > /dev/null
                     fi
